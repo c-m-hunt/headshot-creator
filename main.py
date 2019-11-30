@@ -1,4 +1,5 @@
 import keras_vggface
+from typing import Tuple
 from mtcnn import MTCNN
 import matplotlib.pyplot as pyplot
 from os import path, listdir, makedirs
@@ -13,7 +14,14 @@ logger = logging.getLogger("headshot_creator")
 
 base_path = path.join(path.dirname(__file__), "input")
 
-def add_padding(x1, y1, height, width, padding, aspect_ratio):
+def add_padding(
+	x1: int,
+	y1: int,
+	height: int,
+	width: int,
+	padding: Tuple[int, int],
+	aspect_ratio: float
+):
 	original_aspect_ratio = width / height
 	padding_top, padding_bottom = padding
 	y1 = y1 - ((height / 100) * padding_top)
@@ -25,11 +33,15 @@ def add_padding(x1, y1, height, width, padding, aspect_ratio):
 	x2, y2 = x1 + width, y1 + height
 	return int(x1), int(y1), int(x2), int(y2)
 
-def get_faces(pixels):
+def get_faces(pixels: np.array):
 	detector = MTCNN()
 	return detector.detect_faces(pixels)
 
-def extract_face(filename, outname, required_size, padding):
+def extract_faces(
+	filename: str,
+	outname: str,
+	required_size: Tuple[int, int],
+	padding: Tuple[int, int]):
 	logger.info(f"Looking for faces in {filename}")
 	pixels = pyplot.imread(filename)
 	results = get_faces(pixels)
@@ -41,12 +53,11 @@ def extract_face(filename, outname, required_size, padding):
 		image = Image.fromarray(face)
 		save_path = path.join(path.dirname(__file__), "output", f"{required_size[0]}x{required_size[1]}")
 		filename = f"{outname}_{i}.jpg"
-		saved_file = save_image(image, save_path, filename)
 		image = image.resize(required_size)
-
+		saved_file = save_image(image, save_path, filename)
 		logger.info(f"Written face to {saved_file}")
 
-def save_image(image, directory, filename):
+def save_image(image: Image, directory: str, filename: str):
 	if not path.exists(directory):
 		makedirs(directory)
 	savename = path.join(directory, filename)
@@ -62,7 +73,7 @@ def start(
 	for file_in in listdir(base_path):
 		if file_in.endswith(".jpg") or file_in.endswith(".jpeg"):
 			filename = path.join(base_path, file_in)
-			extract_face(filename, file_in.split(".")[0], output_size, padding)
+			extract_faces(filename, file_in.split(".")[0], output_size, padding)
 		else:
 			continue
 
