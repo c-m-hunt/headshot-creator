@@ -37,4 +37,5 @@ python main.py \
 ```
 
 ## References
-Ideas from https://machinelearningmastery.com/how-to-perform-face-recognition-with-vggface2-convolutional-neural-network-in-keras/
+* Ideas from https://machinelearningmastery.com/how-to-perform-face-recognition-with-vggface2-convolutional-neural-network-in-keras/
+* Detections from https://github.com/ipazc/mtcnn
