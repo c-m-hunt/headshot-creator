@@ -1,5 +1,5 @@
 import keras_vggface
-from typing import Tuple
+from typing import Tuple, List, Dict
 from mtcnn import MTCNN
 import matplotlib.pyplot as pyplot
 from os import path, listdir, makedirs
@@ -21,7 +21,7 @@ def add_padding(
 	width: int,
 	padding: Tuple[int, int],
 	aspect_ratio: float
-):
+) -> Tuple[int, int, int, int]:
 	original_aspect_ratio = width / height
 	padding_top, padding_bottom = padding
 	y1 = y1 - ((height / 100) * padding_top)
@@ -33,7 +33,7 @@ def add_padding(
 	x2, y2 = x1 + width, y1 + height
 	return int(x1), int(y1), int(x2), int(y2)
 
-def get_faces(pixels: np.array):
+def get_faces(pixels: np.array) -> List[Dict]:
 	detector = MTCNN()
 	return detector.detect_faces(pixels)
 
@@ -66,7 +66,7 @@ def extract_faces(
 		else:
 			logger.warning(f"Face found below confidence threshold at {result['confidence']}")
 
-def save_image(image: Image, directory: str, filename: str):
+def save_image(image: Image, directory: str, filename: str) -> str:
 	if not path.exists(directory):
 		makedirs(directory)
 	savename = path.join(directory, filename)

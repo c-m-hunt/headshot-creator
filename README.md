@@ -31,8 +31,8 @@ Create and activate Conda environment `conda env create -f env.yaml`, `conda act
 Run with arguments to override defaults (detailed above).
 ```
 python main.py \
-  --output_size='(800,500)' \
-  --padding='(40,100)' \
+  --output_size='(400,500)' \
+  --padding='(40,80)' \
   --confidence_threshold=0.95
 ```
 
