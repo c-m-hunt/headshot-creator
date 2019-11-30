@@ -1,4 +1,3 @@
-import keras_vggface
 from typing import Tuple, List, Dict
 from mtcnn import MTCNN
 import matplotlib.pyplot as pyplot

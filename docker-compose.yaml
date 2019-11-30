@@ -9,6 +9,6 @@ services:
       - /Path/to/output:/code/output
     command: >-
       python main.py
-        --output_size='(800,500)'
-        --padding='(40,100)'
+        --output_size='(400,500)'
+        --padding='(40,70)'
         --confidence_threshold=0.95
