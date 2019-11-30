@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+  headshot-creator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - /Path/to/input:/code/input
+      - /Path/to/output:/code/output
+    command: >-
+      python main.py
+        --output_size='(500,500)'
+        --padding='(40,60)'

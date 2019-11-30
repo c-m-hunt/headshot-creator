@@ -1,4 +1,3 @@
-# check version of keras_vggface
 import keras_vggface
 from mtcnn import MTCNN
 import matplotlib.pyplot as pyplot
@@ -48,14 +47,14 @@ def extract_face(filename, outname, required_size, padding):
 
 def start(
 	padding=(40,60),
-	required_size=(400, 500)
+	output_size=(400, 500)
 ):
 	logger.info(f"Running with padding of {padding}")
-	logger.info(f"Running with required size of {required_size}")
+	logger.info(f"Running with required size of {output_size}")
 	for file_in in listdir(base_path):
 		if file_in.endswith(".jpg") or file_in.endswith(".jpeg"):
 			filename = path.join(base_path, file_in)
-			extract_face(filename, file_in.split(".")[0], required_size, padding)
+			extract_face(filename, file_in.split(".")[0], output_size, padding)
 		else:
 			continue
 
