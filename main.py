@@ -1,7 +1,7 @@
 import keras_vggface
 from mtcnn import MTCNN
 import matplotlib.pyplot as pyplot
-from os import path, listdir
+from os import path, listdir, makedirs
 from PIL import Image
 import numpy as np
 import logging
@@ -39,11 +39,19 @@ def extract_face(filename, outname, required_size, padding):
 		x1, y1, x2, y2 = add_padding(x1, y1, height, width, padding, required_size[0] / required_size[1])
 		face = pixels[y1:y2, x1:x2]
 		image = Image.fromarray(face)
-		savename = path.join(path.dirname(__file__), f"output/{outname}_{i}.jpg")
+		save_path = path.join(path.dirname(__file__), "output", f"{required_size[0]}x{required_size[1]}")
+		filename = f"{outname}_{i}.jpg"
+		saved_file = save_image(image, save_path, filename)
 		image = image.resize(required_size)
-		image.save(savename)
-		logger.info(f"Written face to {savename}")
 
+		logger.info(f"Written face to {saved_file}")
+
+def save_image(image, directory, filename):
+	if not path.exists(directory):
+		makedirs(directory)
+	savename = path.join(directory, filename)
+	image.save(savename)
+	return savename
 
 def start(
 	padding=(40,60),
