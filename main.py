@@ -50,12 +50,16 @@ def extract_faces(
 		x1, y1, width, height = result['box']
 		x1, y1, x2, y2 = add_padding(x1, y1, height, width, padding, required_size[0] / required_size[1])
 		face = pixels[y1:y2, x1:x2]
-		image = Image.fromarray(face)
-		save_path = path.join(path.dirname(__file__), "output", f"{required_size[0]}x{required_size[1]}")
-		filename = f"{outname}_{i}.jpg"
-		image = image.resize(required_size)
-		saved_file = save_image(image, save_path, filename)
-		logger.info(f"Written face to {saved_file}")
+		try:
+			image = Image.fromarray(face)
+			save_path = path.join(path.dirname(__file__), "output", f"{required_size[0]}x{required_size[1]}")
+			filename = f"{outname}_{i}.jpg"
+			image = image.resize(required_size)
+			saved_file = save_image(image, save_path, filename)
+			logger.info(f"Written face to {saved_file}")
+		except:
+			logger.warn('The calculated image goes beyond the bounds of the image. Try to make the padding smaller or adjust the aspect ratio.')
+
 
 def save_image(image: Image, directory: str, filename: str):
 	if not path.exists(directory):
