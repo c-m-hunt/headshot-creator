@@ -15,6 +15,7 @@ Amend the `output` volume mapping to output location
 Amend the run parameters in `docker-compose.yaml`
 * `output_size` - Resolution of the output images
 * `padding` - Padding (percentage compared to size of face) of top and bottom of image
+* `confidence_threshold` - Threshold at which confidnece of face detection is output. Keep high to avoid background images
 
 ```
 docker-compose up
