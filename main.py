@@ -6,6 +6,7 @@ from os import path, listdir
 from PIL import Image
 import numpy as np
 import logging
+import fire
 
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
@@ -29,14 +30,14 @@ def get_faces(pixels):
 	detector = MTCNN()
 	return detector.detect_faces(pixels)
 
-def extract_face(filename, outname, required_size=(400, 500)):
+def extract_face(filename, outname, required_size, padding):
 	logger.info(f"Looking for faces in {filename}")
 	pixels = pyplot.imread(filename)
 	results = get_faces(pixels)
 	logger.info(f"Found {len(results)} faces")
 	for i, result in enumerate(results):
 		x1, y1, width, height = result['box']
-		x1, y1, x2, y2 = add_padding(x1, y1, height, width, (40, 60), required_size[0] / required_size[1])
+		x1, y1, x2, y2 = add_padding(x1, y1, height, width, padding, required_size[0] / required_size[1])
 		face = pixels[y1:y2, x1:x2]
 		image = Image.fromarray(face)
 		savename = path.join(path.dirname(__file__), f"output/{outname}_{i}.jpg")
@@ -45,9 +46,18 @@ def extract_face(filename, outname, required_size=(400, 500)):
 		logger.info(f"Written face to {savename}")
 
 
-for file_in in listdir(base_path):
-	if file_in.endswith(".jpg") or file_in.endswith(".jpeg"):
-		filename = path.join(base_path, file_in)
-		extract_face(filename, file_in.split(".")[0])
-	else:
-		continue
+def start(
+	padding=(40,60),
+	required_size=(400, 500)
+):
+	logger.info(f"Running with padding of {padding}")
+	logger.info(f"Running with required size of {required_size}")
+	for file_in in listdir(base_path):
+		if file_in.endswith(".jpg") or file_in.endswith(".jpeg"):
+			filename = path.join(base_path, file_in)
+			extract_face(filename, file_in.split(".")[0], required_size, padding)
+		else:
+			continue
+
+if __name__ == '__main__':
+  fire.Fire(start)
