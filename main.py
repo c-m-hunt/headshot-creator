@@ -80,6 +80,7 @@ def start(
 ):
 	logger.info(f"Running with padding of {padding}")
 	logger.info(f"Running with required size of {output_size}")
+	logger.info(f"Running with confidence threshold of {confidence_threshold}")
 	for file_in in listdir(base_path):
 		if file_in.endswith(".jpg") or file_in.endswith(".jpeg"):
 			filename = path.join(base_path, file_in)
