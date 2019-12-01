@@ -13,3 +13,4 @@ services:
         --padding='(0.3, 0.8)'
         --confidence_threshold=0.95
         --output_path=
+        --debug

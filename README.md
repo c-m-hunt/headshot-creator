@@ -12,6 +12,7 @@ A warning will be displayed if the calculated image is beyond the bounds of the 
 * `padding` [(0.4, 0.6)] - Padding (percentage compared to size of face) of top and bottom of image
 * `confidence_threshold` [0.95] - Threshold at which confidnece of face detection is output. Keep high to avoid background images
 * `output_path` [''] - Path within the output folder to place images
+* `debug` [False] - Outputs input image with boxes draw. Blue - detected face. Green - output headshot. Red - headshot not output.
 
 ## Running in Docker
 Amend the `input` volume mapping to location where images are stored
@@ -35,7 +36,8 @@ python main.py \
   --output_size='(800,1000)' \
   --padding='(0.3,0.8)' \
   --confidence_threshold=0.95 \
-  --output_path=my/faces
+  --output_path=my/faces \
+  --debug
 ```
 
 ## References
