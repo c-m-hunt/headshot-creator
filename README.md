@@ -9,7 +9,7 @@ A warning will be displayed if the calculated image is beyond the bounds of the 
 
 ## Arguments (and defaults)
 * `output_size` [(400, 500)] - Resolution of the output images
-* `padding` [(40, 60)] - Padding (percentage compared to size of face) of top and bottom of image
+* `padding` [(0.4, 0.6)] - Padding (percentage compared to size of face) of top and bottom of image
 * `confidence_threshold` [0.95] - Threshold at which confidnece of face detection is output. Keep high to avoid background images
 
 ## Running in Docker
@@ -31,8 +31,8 @@ Create and activate Conda environment `conda env create -f env.yaml`, `conda act
 Run with arguments to override defaults (detailed above).
 ```
 python main.py \
-  --output_size='(400,500)' \
-  --padding='(40,80)' \
+  --output_size='(800,1000)' \
+  --padding='(0.3,0.8)' \
   --confidence_threshold=0.95
 ```
 

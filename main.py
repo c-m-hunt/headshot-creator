@@ -23,8 +23,8 @@ def add_padding(
 ) -> Tuple[int, int, int, int]:
 	original_aspect_ratio = width / height
 	padding_top, padding_bottom = padding
-	y1 = y1 - ((height / 100) * padding_top)
-	height = height + ((height / 100) * sum(padding))
+	y1 = y1 - (height * padding_top)
+	height = height + (height * sum(padding))
 	new_width = aspect_ratio * height
 	width_diff = new_width - width
 	x1 = x1 - (width_diff / 2)
@@ -73,7 +73,7 @@ def save_image(image: Image, directory: str, filename: str) -> str:
 	return savename
 
 def start(
-	padding: Tuple[int, int]=(40,60),
+	padding: Tuple[int, int]=(0.4, 0.6),
 	output_size: Tuple[int, int]=(400, 500),
 	confidence_threshold: float=0.95
 ):
