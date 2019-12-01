@@ -9,7 +9,7 @@ import fire
 
 from helper_methods import add_padding
 
-logging.basicConfig(level=logging.INFO,
+logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
 logger = logging.getLogger("headshot_creator")
 
@@ -35,6 +35,7 @@ def extract_faces(
 		if result["confidence"] > confidence_threshold:
 			logger.info(f"Face found with confidence of {result['confidence']}")
 			x1, y1, width, height = result['box']
+			logger.debug(f"Face found at {x1} {y1} with width {width} and height {height}")
 			x1, y1, x2, y2 = add_padding(x1, y1, height, width, padding, required_size[0] / required_size[1])
 			face = pixels[y1:y2, x1:x2]
 			try:
