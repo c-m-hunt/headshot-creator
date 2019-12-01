@@ -41,7 +41,8 @@ def extract_faces(
 	outname: str,
 	required_size: Tuple[int, int],
 	padding: Tuple[int, int],
-	confidence_threshold: float
+	confidence_threshold: float,
+	output_path: str
 ):
 	logger.info(f"Looking for faces in {filename}")
 	pixels = pyplot.imread(filename)
@@ -55,7 +56,7 @@ def extract_faces(
 			face = pixels[y1:y2, x1:x2]
 			try:
 				image = Image.fromarray(face)
-				save_path = path.join(path.dirname(__file__), "output", f"{required_size[0]}x{required_size[1]}")
+				save_path = path.join(path.dirname(__file__), "output", output_path, f"{required_size[0]}x{required_size[1]}")
 				filename = f"{outname}_{i}.jpg"
 				image = image.resize(required_size)
 				saved_file = save_image(image, save_path, filename)
@@ -75,7 +76,8 @@ def save_image(image: Image, directory: str, filename: str) -> str:
 def start(
 	padding: Tuple[int, int]=(0.4, 0.6),
 	output_size: Tuple[int, int]=(400, 500),
-	confidence_threshold: float=0.95
+	confidence_threshold: float=0.95,
+	output_path: str = ""
 ):
 	logger.info(f"Running with padding of {padding}")
 	logger.info(f"Running with required size of {output_size}")
@@ -83,7 +85,7 @@ def start(
 	for file_in in listdir(base_path):
 		if file_in.endswith(".jpg") or file_in.endswith(".jpeg"):
 			filename = path.join(base_path, file_in)
-			extract_faces(filename, file_in.split(".")[0], output_size, padding, confidence_threshold)
+			extract_faces(filename, file_in.split(".")[0], output_size, padding, confidence_threshold, output_path)
 		else:
 			continue
 
