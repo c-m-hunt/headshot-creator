@@ -10,7 +10,7 @@ import fire
 from helper_methods import add_padding
 
 logging.basicConfig(
-    level=logging.DEBUG, format="%(asctime)s %(name)-12s %(levelname)-8s %(message)s"
+    level=logging.INFO, format="%(asctime)s %(name)-12s %(levelname)-8s %(message)s"
 )
 logger = logging.getLogger("headshot_creator")
 
@@ -31,22 +31,26 @@ def extract_faces(
     output_path: str,
     debug: bool,
 ):
-    logger.info(f"Looking for faces in {filename}")
+    logger.debug(f"Looking for faces in {filename}")
     pixels = pyplot.imread(filename)
     image_main = Image.fromarray(pixels)
     draw = ImageDraw.Draw(image_main)
     results = get_faces(pixels)
     logger.info(f"Found {len(results)} faces")
     for i, result in enumerate(results):
+        x1, y1, width, height = result["box"]
         if result["confidence"] > confidence_threshold:
-            logger.info(f"Face found with confidence of {result['confidence']}")
+            logger.debug(
+                f"Face found with confidence of {result['confidence']}")
             x1, y1, width, height = result["box"]
-            draw.rectangle([x1, y1, x1 + width, y1 + height], outline="blue", width=3)
+            draw.rectangle([x1, y1, x1 + width, y1 + height],
+                           outline="blue", width=3)
             logger.debug(
                 f"Face found at {x1} {y1} with width {width} and height {height}"
             )
             x1, y1, x2, y2 = add_padding(
-                x1, y1, height, width, padding, required_size[0] / required_size[1]
+                x1, y1, height, width, padding, required_size[0] /
+                required_size[1]
             )
             face = pixels[y1:y2, x1:x2]
             try:
@@ -68,6 +72,8 @@ def extract_faces(
                     "The calculated image goes beyond the bounds of the image. Try to make the padding smaller or adjust the aspect ratio."
                 )
         else:
+            draw.rectangle([x1, y1, x1 + width, y1 + height],
+                           outline="orange", width=3)
             logger.warning(
                 f"Face found below confidence threshold at {result['confidence']}"
             )
@@ -117,4 +123,3 @@ def start(
 
 if __name__ == "__main__":
     fire.Fire(start)
-
