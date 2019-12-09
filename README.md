@@ -14,7 +14,8 @@ A warning will be displayed if the calculated image is beyond the bounds of the 
 * `padding` [(0.4, 0.6)] - Padding (percentage compared to size of face) of top and bottom of image
 * `confidence_threshold` [0.95] - Threshold at which confidnece of face detection is output. Keep high to avoid background images
 * `output_path` [''] - Path within the output folder to place images
-* `debug` [False] - Outputs input image with boxes draw. Blue - detected face. Green - output headshot. Red - headshot not output. Orange - headshot below the confidence threshold.
+* `input_file` [None] - An input file with a list of URLs to use
+* `debug` [False] - Outputs input image with boxes draw. Blue - detected face. Green - output headshot. Red - headshot not output. Orange - headshot below the confidence threshold
 
 ## Running in Docker
 Amend the `input` volume mapping to location where images are stored
@@ -36,9 +37,10 @@ Run with arguments to override defaults (detailed above).
 ```
 python main.py \
   --output_size='(800,1000)' \
-  --padding='(0.3,0.8)' \
+  --padding='(0.3,0.6)' \
   --confidence_threshold=0.95 \
-  --output_path=my/faces \
+  --output_path=./ \
+  --input_file=./input.txt \
   --debug
 ```
 
