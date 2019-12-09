@@ -19,4 +19,3 @@ def add_padding(
     width = new_width
     x2, y2 = x1 + width, y1 + height
     return int(x1), int(y1), int(x2), int(y2)
-

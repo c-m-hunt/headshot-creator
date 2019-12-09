@@ -4,6 +4,7 @@ import matplotlib.pyplot as pyplot
 from os import path, listdir, makedirs
 from PIL import Image, ImageDraw
 import numpy as np
+import wget
 import logging
 import fire
 
@@ -91,17 +92,32 @@ def save_image(image: Image, directory: str, filename: str) -> str:
     image.save(savename)
     return savename
 
+def download_remote_images(input_file: str):
+    f = open(input_file, "r")
+    logger.debug(f"Found file {input_file}. Reading contents")
+    files_data = f.read()
+    f.close()
+    files = files_data.split("\n")
+    for num, file in enumerate(files):
+        logger.debug(f"Downloading from {file}")
+        file_name = file.split("/")[-1]
+        wget.download(file, path.join(base_path, f"{num}.jpg"))
 
 def start(
     padding: Tuple[int, int] = (0.4, 0.6),
     output_size: Tuple[int, int] = (400, 500),
     confidence_threshold: float = 0.95,
     output_path: str = "",
+    input_file: str = None,
     debug: bool = False,
 ):
     logger.info(f"Running with padding of {padding}")
     logger.info(f"Running with required size of {output_size}")
     logger.info(f"Running with confidence threshold of {confidence_threshold}")
+    logger.info(f"Using input file {input_file}")
+
+    if input_file:
+        download_remote_images(input_file)
     if debug:
         logger.setLevel(logging.DEBUG)
         logger.info(f"Running in debug mode")
