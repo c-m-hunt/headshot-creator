@@ -7,13 +7,7 @@ import numpy as np
 import wget
 import logging
 import fire
-
-from helper_methods import add_padding
-
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s %(name)-12s %(levelname)-8s %(message)s"
-)
-logger = logging.getLogger("headshot_creator")
+from helper_methods import add_padding, logger
 
 base_path = path.join(path.dirname(__file__), "input")
 
@@ -92,6 +86,7 @@ def save_image(image: Image, directory: str, filename: str) -> str:
     image.save(savename)
     return savename
 
+
 def download_remote_images(input_file: str):
     f = open(input_file, "r")
     logger.debug(f"Found file {input_file}. Reading contents")
@@ -102,6 +97,7 @@ def download_remote_images(input_file: str):
         logger.debug(f"Downloading from {file}")
         file_name = file.split("/")[-1]
         wget.download(file, path.join(base_path, f"{num}.jpg"))
+
 
 def start(
     padding: Tuple[int, int] = (0.4, 0.6),
