@@ -5,9 +5,9 @@ from os import path, listdir, makedirs
 from PIL import Image, ImageDraw
 import numpy as np
 import wget
-import logging
+from logger import logger
 import fire
-from helper_methods import add_padding, logger
+from helper_methods import add_padding
 
 base_path = path.join(path.dirname(__file__), "input")
 
@@ -115,7 +115,7 @@ def start(
     if input_file:
         download_remote_images(input_file)
     if debug:
-        logger.setLevel(logging.DEBUG)
+        logger.setLevel(logger.DEBUG)
         logger.info(f"Running in debug mode")
     for file_in in listdir(base_path):
         if file_in.endswith(".jpg") or file_in.endswith(".jpeg"):
