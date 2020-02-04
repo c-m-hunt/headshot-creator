@@ -24,6 +24,7 @@ def extract_faces(
     padding: Tuple[int, int],
     confidence_threshold: float,
     output_path: str,
+    output_format: str,
     debug: bool,
 ):
     logger.debug(f"Looking for faces in {filename}")
@@ -56,7 +57,7 @@ def extract_faces(
                     output_path,
                     f"{required_size[0]}x{required_size[1]}",
                 )
-                filename = f"{outname}_{i}.jpg"
+                filename = f"{outname}_{i}.{output_format}"
                 image = image.resize(required_size)
                 saved_file = save_image(image, save_path, filename)
                 logger.info(f"Written face to {saved_file}")
@@ -105,12 +106,19 @@ def start(
     confidence_threshold: float = 0.95,
     output_path: str = "",
     input_file: str = None,
+    img_format: str = 'jpg',
     debug: bool = False,
 ):
     logger.info(f"Running with padding of {padding}")
     logger.info(f"Running with required size of {output_size}")
     logger.info(f"Running with confidence threshold of {confidence_threshold}")
     logger.info(f"Using input file {input_file}")
+    logger.info(f"Outputting file in {img_format} format")
+
+    allowed_formats = ['jpg', 'jpeg', 'png']
+    if img_format not in allowed_formats:
+        formats = ",".join(allowed_formats)
+        raise Exception(f"{img_format} is not a valid format. Try one of {formats}") 
 
     if input_file:
         download_remote_images(input_file)
@@ -127,6 +135,7 @@ def start(
                 padding,
                 confidence_threshold,
                 output_path,
+                img_format,
                 debug,
             )
         else:

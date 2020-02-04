@@ -16,6 +16,7 @@ A warning will be displayed if the calculated image is beyond the bounds of the 
 * `output_path` [''] - Path within the output folder to place images
 * `input_file` [`None`] - An input file with a list of URLs to use
 * `debug` [`False`] - Outputs input image with boxes draw. Blue - detected face. Green - output headshot. Red - headshot not output. Orange - headshot below the confidence threshold
+* `img_format` ['jpg'] - Format of the output images
 
 ## Running in Docker
 Amend the `input` volume mapping to location where images are stored
@@ -41,6 +42,7 @@ python main.py \
   --confidence_threshold=0.95 \
   --output_path=./ \
   --input_file=./input.txt \
+  --img_format=png \
   --debug
 ```
 
