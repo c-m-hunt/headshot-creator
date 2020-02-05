@@ -1,0 +1,28 @@
+language: python
+
+matrix:
+  # This will launch a separate build for each Python version you add
+  # Feel free to add extra environment variables as needed
+  include:
+    - python: 3.7
+
+before_install:
+  # Install the latest version of Miniconda
+  - wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+  - chmod +x miniconda.sh
+  - ./miniconda.sh -b
+  - export PATH=/home/travis/miniconda3/bin:$PATH
+  - conda update --yes conda  # Update CONDA without command line prompt
+
+install:
+
+  # We just set up a conda environment with the right Python version. This
+  # should not need changing.
+
+  - conda env create -f env.yaml
+  - source activate headshot-creator
+  - pip install pytest
+
+script:
+
+  - python -m pytest
