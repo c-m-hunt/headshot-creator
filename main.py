@@ -1,5 +1,6 @@
 from typing import Tuple, List, Dict
 from mtcnn import MTCNN
+from pathlib import Path
 import matplotlib.pyplot as pyplot
 from os import path, listdir, makedirs
 from PIL import Image, ImageDraw
@@ -94,6 +95,7 @@ def download_remote_images(input_file: str):
     files_data = f.read()
     f.close()
     files = files_data.split("\n")
+    Path(base_path).mkdir(parents=True, exist_ok=True)
     for num, file in enumerate(files):
         logger.debug(f"Downloading from {file}")
         file_name = file.split("/")[-1]
