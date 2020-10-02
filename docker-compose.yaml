@@ -5,12 +5,13 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - /Path/to/input:/code/input
-      - /Path/to/output:/code/output
+      - ./input:/app/input
+      - ./output:/app/output
     command: >-
-      python main.py
+      poetry run python main.py
         --output_size='(800,1000)'
         --padding='(0.3, 0.8)'
         --confidence_threshold=0.95
-        --output_path=
+        --output_path=/app/output
+        --input_file=/app/test.txt
         --debug

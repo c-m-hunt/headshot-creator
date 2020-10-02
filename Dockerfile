@@ -1,13 +1,15 @@
-FROM continuumio/miniconda3
+FROM python:3.8
 
-WORKDIR /code
-COPY ./env.yaml /code
+RUN apt update
+RUN apt install -y libgl1-mesa-glx
 
-RUN conda update -n base -c defaults conda
-RUN conda env create -f env.yaml
+RUN pip install poetry
+RUN poetry config virtualenvs.create false
+WORKDIR /app
 
-COPY . /code
+COPY poetry.lock /app
+COPY pyproject.toml /app
 
-# Pull the environment name out of the environment.yml
-RUN echo "source activate headshot-creator" > ~/.bashrc
-ENV PATH /opt/conda/envs/headshot-creator/bin:$PATH
+RUN poetry install --no-interaction
+
+COPY . /app

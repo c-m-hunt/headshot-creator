@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "headshot-creator"
+version = "0.1.0"
+description = "A headshot creator in Python"
+authors = ["Chris Hunt <chris.hunt1977@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+mtcnn = "^0.1.0"
+numpy = "1.18.0"
+opencv-python = "^4.4.0"
+pillow = "^7.2.0"
+tensorflow = "^2.3.1"
+tensorflow-estimator = "^2.3.0"
+fire = "^0.3.1"
+matplotlib = "^3.3.2"
+wget = "^3.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.1.0"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

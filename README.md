@@ -32,11 +32,11 @@ docker-compose up
 First run builds the image and will take longer. Subsequent runs will be quicker.
 
 ## Running locally
-Create and activate Conda environment `conda env create -f env.yaml`, `conda activate headshot-creator`
+Install with `poetry install`
 
 Run with arguments to override defaults (detailed above).
 ```
-python main.py \
+poetry run python main.py \
   --output_size='(800,1000)' \
   --padding='(0.3,0.6)' \
   --confidence_threshold=0.95 \
