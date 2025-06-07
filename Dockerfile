@@ -1,15 +1,12 @@
-FROM python:3.8
+FROM python:3.12
 
 RUN apt update
-RUN apt install -y libgl1-mesa-glx
+RUN apt install -y libgl1-mesa-glx libhdf5-dev
 
-RUN pip install poetry
-RUN poetry config virtualenvs.create false
+RUN pip install uv
 WORKDIR /app
 
-COPY poetry.lock /app
+COPY uv.lock /app
 COPY pyproject.toml /app
-
-RUN poetry install --no-interaction
-
+RUN uv sync --no-interaction
 COPY . /app

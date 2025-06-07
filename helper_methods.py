@@ -1,5 +1,6 @@
 from typing import Tuple
 
+
 def add_padding(
     x1: int,
     y1: int,
@@ -8,7 +9,6 @@ def add_padding(
     padding: Tuple[int, int],
     aspect_ratio: float,
 ) -> Tuple[int, int, int, int]:
-    original_aspect_ratio = width / height
     padding_top, padding_bottom = padding
     y1 = y1 - (height * padding_top)
     height = height + (height * sum(padding))

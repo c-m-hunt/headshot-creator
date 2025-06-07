@@ -32,16 +32,16 @@ docker-compose up
 First run builds the image and will take longer. Subsequent runs will be quicker.
 
 ## Running locally
-Install with `poetry install`
+Install with `uv sync`
 
 Run with arguments to override defaults (detailed above).
 ```
-poetry run python main.py \
+uv run python main.py \
   --output_size='(800,1000)' \
   --padding='(0.3,0.6)' \
   --confidence_threshold=0.95 \
   --output_path=./ \
-  --input_file=./input.txt \
+  --input_file=./test.txt \
   --img_format=png \
   --debug
 ```

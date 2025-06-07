@@ -1,14 +1,16 @@
-from typing import Tuple, List, Dict
-from mtcnn import MTCNN
+from os import listdir, makedirs, path
 from pathlib import Path
-import matplotlib.pyplot as pyplot
-from os import path, listdir, makedirs
-from PIL import Image, ImageDraw
-import numpy as np
-import wget
-from logger import logger
+from typing import Dict, List, Tuple
+
 import fire
+import matplotlib.pyplot as pyplot
+import numpy as np
+import requests
+from mtcnn import MTCNN
+from PIL import Image, ImageDraw
+
 from helper_methods import add_padding
+from logger import logger
 
 base_path = path.join(path.dirname(__file__), "input")
 
@@ -63,7 +65,7 @@ def extract_faces(
                 saved_file = save_image(image, save_path, filename)
                 logger.info(f"Written face to {saved_file}")
                 draw.rectangle([x1, y1, x2, y2], outline="green", width=3)
-            except:
+            except Exception:
                 draw.rectangle([x1, y1, x2, y2], outline="red", width=3)
                 logger.warning(
                     "The calculated image goes beyond the bounds of the image. Try to make the padding smaller or adjust the aspect ratio."
@@ -98,9 +100,9 @@ def download_remote_images(input_file: str):
     Path(base_path).mkdir(parents=True, exist_ok=True)
     for num, file in enumerate(files):
         logger.debug(f"Downloading from {file}")
-        file_name = file.split("/")[-1]
-        wget.download(file, path.join(base_path, f"{num}.jpg"))
-
+        img_data = requests.get(file).content
+        with open(path.join(base_path, f"{num}.jpg"), 'wb') as handler:
+            handler.write(img_data)
 
 def start(
     padding: Tuple[int, int] = (0.4, 0.6),
@@ -111,6 +113,10 @@ def start(
     img_format: str = 'jpg',
     debug: bool = False,
 ):
+    if debug:
+        logger.setLevel(logger.DEBUG)
+        logger.info("Running in debug mode")
+
     logger.info(f"Running with padding of {padding}")
     logger.info(f"Running with required size of {output_size}")
     logger.info(f"Running with confidence threshold of {confidence_threshold}")
@@ -124,9 +130,7 @@ def start(
 
     if input_file:
         download_remote_images(input_file)
-    if debug:
-        logger.setLevel(logger.DEBUG)
-        logger.info(f"Running in debug mode")
+
     for file_in in listdir(base_path):
         if file_in.endswith(".jpg") or file_in.endswith(".jpeg"):
             filename = path.join(base_path, file_in)
