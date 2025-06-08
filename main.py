@@ -6,7 +6,7 @@ import fire
 import matplotlib.pyplot as pyplot
 import numpy as np
 import requests
-from mtcnn import MTCNN
+from deepface import DeepFace
 from PIL import Image, ImageDraw
 
 from helper_methods import add_padding
@@ -16,8 +16,22 @@ base_path = path.join(path.dirname(__file__), "input")
 
 
 def get_faces(pixels: np.array) -> List[Dict]:
-    detector = MTCNN()
-    return detector.detect_faces(pixels)
+    result = DeepFace.analyze(
+        img_path=pixels, actions=['age']
+    )
+
+    return [
+        {
+            "box": [
+                int(face["region"]["x"]),
+                int(face["region"]["y"]),
+                int(face["region"]["w"]),
+                int(face["region"]["h"]),
+            ],
+            "confidence": face["face_confidence"]
+        }
+        for face in result
+    ]
 
 
 def extract_faces(
@@ -107,7 +121,7 @@ def download_remote_images(input_file: str):
 def start(
     padding: Tuple[int, int] = (0.4, 0.6),
     output_size: Tuple[int, int] = (400, 500),
-    confidence_threshold: float = 0.95,
+    confidence_threshold: float = 0.8,
     output_path: str = "",
     input_file: str = None,
     img_format: str = 'jpg',
