@@ -1,5 +1,6 @@
 import unittest
-from helper_methods import add_padding
+
+from .utils import add_padding
 
 
 class AddPadding(unittest.TestCase):
