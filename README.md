@@ -36,7 +36,7 @@ Install with `uv sync`
 
 Run with arguments to override defaults (detailed above).
 ```
-uv run python main.py \
+uv run python main.py headshots \
   --output_size='(800,1000)' \
   --padding='(0.3,0.6)' \
   --confidence_threshold=0.95 \

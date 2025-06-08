@@ -10,12 +10,13 @@ from logger import logger
 base_path = path.join(path.dirname(__file__), "data")
 
 
-def start(
+def headshots(
     padding: Tuple[int, int] = (0.4, 0.6),
     output_size: Tuple[int, int] = (400, 500),
     confidence_threshold: float = 0.8,
     output_path: str = "",
     input_file: str = None,
+    input_path: str = base_path,
     img_format: str = 'jpg',
     debug: bool = False,
 ):
@@ -45,11 +46,11 @@ def start(
         raise Exception(f"{img_format} is not a valid format. Try one of {formats}") 
 
     if input_file:
-        download_remote_images(input_file, base_path)
+        download_remote_images(input_file, input_path)
 
-    for file_in in listdir(base_path):
+    for file_in in listdir(input_path):
         if file_in.endswith(".jpg") or file_in.endswith(".jpeg"):
-            filename = path.join(base_path, file_in)
+            filename = path.join(input_path, file_in)
             extract_faces(
                 filename,
                 file_in.split(".")[0],
@@ -66,4 +67,4 @@ def start(
 
 
 if __name__ == "__main__":
-    fire.Fire(start)
+    fire.Fire()
