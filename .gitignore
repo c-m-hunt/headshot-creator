@@ -2,3 +2,6 @@ data
 .vscode
 __pycache__
 input.txt
+.ruff_cache
+.pytest_cache
+.venv
