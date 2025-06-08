@@ -6,11 +6,13 @@ authors = ["Chris Hunt <chris.hunt1977@gmail.com>"]
 readme = "README.md"
 requires-python = "==3.12.4"
 dependencies = [
+    "deepface>=0.0.93",
     "fire>=0.7.0",
     "matplotlib>=3.10.3",
     "mtcnn>=1.0.0",
     "opencv-python>=4.11.0.86",
     "tensorflow>=2.19.0",
+    "tf-keras>=2.19.0",
     "wget>=3.2",
 ]
 
